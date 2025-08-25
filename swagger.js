@@ -7,8 +7,13 @@ const options = {
     info: {
       title: "Okta User & Device API",
       version: "1.0.0",
-      description: "API to fetch users and their registered devices from Okta"
-    }
+      description: "API to fetch users and their registered devices from Okta",
+    },
+    servers: [
+      {
+        url: "https://okta-t5dr.onrender.com", // <-- replace with your Render URL
+      },
+    ],
   },
   apis: ["./routes/*.js"], // path to your route files with annotations
 };

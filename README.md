@@ -61,11 +61,21 @@ Base URL: `http://localhost:PORT`
   - Returns service status and Okta connectivity.
 
 - GET `/api/users`
+  - Example:
+    ```bash
+    curl "http://localhost:3000/api/users"
+    ```
+
+### get user with pagination
+
+- GET `/api/users`
   - Query params: `limit` (number), `after` (cursor), `filter` (Okta user filter).
   - Example:
     ```bash
     curl "http://localhost:3000/api/users?limit=10"
     ```
+
+  
 
 - GET `/api/users/:userId`
   - Returns a user profile with their devices.

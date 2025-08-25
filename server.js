@@ -28,6 +28,10 @@ app.use('*', (req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello from Render 🚀");
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);

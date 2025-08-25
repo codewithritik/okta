@@ -28,10 +28,6 @@ app.use('*', (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello from Render 🚀");
-});
-
 // Error handling middleware
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
@@ -46,7 +42,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Okta Users & Devices Service running on port ${PORT}`);
   console.log(`📋 Health check: http://localhost:${PORT}/health`);
   console.log(`👥 Users API: http://localhost:${PORT}/api/users`);
-  console.log(`📚 API Docs: http://localhost:${PORT}/api-docs`);
+  console.log(`📚 API Docs: http://localhost:${PORT}`);
 });
 
 module.exports = app;

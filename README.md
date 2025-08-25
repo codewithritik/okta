@@ -52,6 +52,7 @@ npm start
 Server prints helpful URLs on start:
 - Health: `http://localhost:PORT/health`
 - Users API root: `http://localhost:PORT/api/users`
+- Swagger UI: `http://localhost:PORT/api-docs`
 
 ### API
 
@@ -142,7 +143,9 @@ Base URL: `http://localhost:PORT`
 config/okta.js          # Loads env and builds Okta base URL
 services/oktaService.js # Okta API client and helpers
 controllers/userController.js # Request handlers
-routes/userRoutes.js    # Express routes
+routes/userRoutes.js    # Users routes with Swagger JSDoc
+routes/index.js         # Central router (mounts /api/users and /health)
+swagger.js              # Swagger UI and swagger-jsdoc setup
 server.js               # App bootstrap and middleware
 ```
 

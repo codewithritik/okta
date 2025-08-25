@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
+const routes = require('./routes');
 require('dotenv').config();
+const swaggerDocs = require("./swagger");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,49 +11,14 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-
-// Health check endpoint with Okta connectivity check
-app.get('/health', async (req, res) => {
-  const healthCheck = {
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    service: 'Okta Users & Devices Service',
-    checks: {
-      server: 'OK',
-      okta: 'CHECKING...'
-    }
-  };
-
-  try {
-    // Test Okta API connectivity
-    const OktaService = require('./services/oktaService');
-    const oktaService = new OktaService();
-    
-    // Try to fetch a small number of users to test connectivity
-    await oktaService.axiosInstance.get('/users?limit=1');
-    
-    healthCheck.checks.okta = 'OK';
-    healthCheck.message = 'All systems operational';
-    
-    res.status(200).json(healthCheck);
-    
-  } catch (error) {
-    healthCheck.status = 'DEGRADED';
-    healthCheck.checks.okta = 'FAILED';
-    healthCheck.message = 'Okta API connection failed';
-    healthCheck.error = {
-      type: error.response?.status === 401 ? 'AUTHENTICATION_ERROR' : 'CONNECTION_ERROR',
-      details: error.response?.data?.errorSummary || error.message
-    };
-    
-    console.error('Health check - Okta API error:', error.message);
-    res.status(503).json(healthCheck);
-  }
-});
+swaggerDocs(app);
 
 
-// Routes
-app.use('/api/users', userRoutes);
+// Mount routes (includes /api/users and /health)
+app.use('/', routes);
+
+
+// Routes are mounted via routes/index.js
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -76,6 +42,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Okta Users & Devices Service running on port ${PORT}`);
   console.log(`📋 Health check: http://localhost:${PORT}/health`);
   console.log(`👥 Users API: http://localhost:${PORT}/api/users`);
+  console.log(`📚 API Docs: http://localhost:${PORT}/api-docs`);
 });
 
 module.exports = app;
